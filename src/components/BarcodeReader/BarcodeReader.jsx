@@ -188,7 +188,9 @@ export function BarcodeReader({
       const mediaStream = video.srcObject
       const tracks = mediaStream.getTracks()
 
-      tracks.forEach(track => track.stop())
+      tracks.forEach((track) => {
+        track.stop()
+      })
     } catch (e) {
       console.error('BoletoBarcodeReader could not stop the camera',)
     }

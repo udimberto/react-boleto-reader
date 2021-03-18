@@ -91,7 +91,10 @@ section, #start {
   text-transform: capitalize;
 }
 
-#start {
+#start,
+#not-smart-device {
+  padding: 15px;
+  flex: 1 auto;
   align-items: center;
   justify-content: center;
   background-color: #eaeaea;

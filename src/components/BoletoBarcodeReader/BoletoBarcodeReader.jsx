@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { BarcodeReader } from '../BarcodeReader'
 import { RequireLandscape } from '../RequireLandscape'
 import { getBoletoByCode } from '../../utilities'
@@ -18,6 +18,7 @@ export function BoletoBarcodeReader({
   textLandscape = '',
   ...props
 }) {
+  const [wasDetected, setDetected] = useState(false)
   const Wrapper = landscape ? RequireLandscape : Fragment;
   const wrapperProps = !landscape ? {} : {
     height: height,
@@ -32,12 +33,17 @@ export function BoletoBarcodeReader({
    * @param {Object} result - Quagga lib result data
    */
   const handleDetected = useCallback((result, code) => {
+    if (wasDetected) {
+      return;
+    }
+
     const boleto = getBoletoByCode(code)
 
     if (!boleto) {
       return
     }
 
+    setDetected(true);
     onDetected(boleto, code, result)
   }, [])
 
@@ -45,7 +51,7 @@ export function BoletoBarcodeReader({
     <Wrapper {...wrapperProps}>
       <BarcodeReader
         id={id}
-        height={height || wHeight}
+        height={height}
         readers={readers}
         aspectRatio={aspectRatio}
         onCancel={onCancel}

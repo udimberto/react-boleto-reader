@@ -1,6 +1,6 @@
 import React, { useCallback, useLayoutEffect, useState } from 'react';
 
-import { BarcodeReader, BoletoBarcodeReader, BoletoBarcodeReaderProvider, BoletoBarcodeReaderSupport } from 'react-boleto-reader';
+import { BarcodeReader, BoletoBarcodeReader, BoletoBarcodeReaderProvider, BoletoBarcodeReaderSupport, isSmartDevice } from 'react-boleto-reader';
 import 'react-boleto-reader/dist/index.css'; /** The default styles. It's optional. */
 
 import './index.css'; /** Not important: example styles. */
@@ -192,62 +192,72 @@ export default function App() {
         </div>
         <BoletoBarcodeReaderProvider>
           <BoletoBarcodeReaderSupport>
-            {reading ? (
-              <div id="readers">
-                {tab === 'boleto' && (
-                  <div id={`${tabsId}_reader_boleto`}>
-                    <BoletoBarcodeReader
-                      height={readersHeight}
-                      onCancel={onCancel}
-                      onDetected={onDetectBoleto}
-                    />
-                  </div>
-                )}
-                {tab === 'barcode' && (
-                  <div id={`${tabsId}_reader_barcode`}>
-                    <BarcodeReader
-                      height={readersHeight}
-                      onCancel={onCancel}
-                      onDetected={onDetectBarcode}
-                    />
-                  </div>
-                )}
-              </div>
-            ) : ((!boleto && !barcode) ? (
-              <article id="start">
-                <button
-                  type="button"
-                  className="btn"
-                  onClick={restart}
-                >
-                  Começar Leitura
-                </button>
+            {!isSmartDevice ? (
+              <article id="not-smart-device">
+                <div>
+                  Requer um dispositivo com câmera de alta qualidade.
+                </div>
               </article>
             ) : (
-              <article id="result">
-                <pre
-                  dangerouslySetInnerHTML={{
-                    __html: (
-                      JSON
-                        .stringify(boleto || barcode || {})
-                        .replace(/{/g, '{<br />  ')
-                        .replace(/":/g, '": ')
-                        .replace(/,"/g, ',<br />  "')
-                        .replace(/}/g, '<br />}')
-                    )
-                  }}
-                />
-                <footer id="result_footer">
-                  <button
-                    type="button"
-                    className="btn"
-                    onClick={restart}
-                  >
-                    Read Again
-                  </button>
-                </footer>
-              </article>
-            ))}
+              <>
+                {reading ? (
+                  <div id="readers">
+                    {tab === 'boleto' && (
+                      <div id={`${tabsId}_reader_boleto`}>
+                        <BoletoBarcodeReader
+                          height={readersHeight}
+                          onCancel={onCancel}
+                          onDetected={onDetectBoleto}
+                        />
+                      </div>
+                    )}
+                    {tab === 'barcode' && (
+                      <div id={`${tabsId}_reader_barcode`}>
+                        <BarcodeReader
+                          height={readersHeight}
+                          onCancel={onCancel}
+                          onDetected={onDetectBarcode}
+                        />
+                      </div>
+                    )}
+                  </div>
+                ) : ((!boleto && !barcode) ? (
+                  <article id="start">
+                    <button
+                      type="button"
+                      className="btn"
+                      onClick={restart}
+                    >
+                      Começar Leitura
+                    </button>
+                  </article>
+                ) : (
+                  <article id="result">
+                    <pre
+                      dangerouslySetInnerHTML={{
+                        __html: (
+                          JSON
+                            .stringify(boleto || barcode || {})
+                            .replace(/{/g, '{<br />  ')
+                            .replace(/":/g, '": ')
+                            .replace(/,"/g, ',<br />  "')
+                            .replace(/}/g, '<br />}')
+                        )
+                      }}
+                    />
+                    <footer id="result_footer">
+                      <button
+                        type="button"
+                        className="btn"
+                        onClick={restart}
+                      >
+                        Read Again
+                      </button>
+                    </footer>
+                  </article>
+                ))}
+              </>
+            )}
           </BoletoBarcodeReaderSupport>
         </BoletoBarcodeReaderProvider>
       </section>

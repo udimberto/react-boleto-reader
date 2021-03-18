@@ -8,14 +8,26 @@ import { Boleto } from 'broleto'
  * @returns {Object}
  */
 export function getBoletoByCode(code) {
-  const boleto = new Boleto(String(code))
+  const detected = new Boleto(String(code))
 
-  if (!boleto || !boleto.valid()) {
+  if (!detected || !detected.valid()) {
     return null
   }
 
+  const boleto            = detected.toJSON()
+  const expiration        = new Date(boleto.expirationDate)
+  const expirationYear    = expiration.getFullYear()
+  const expirationInvalid = !expirationYear || expirationYear < 2000
+  const expirationDate    = (expirationInvalid ? '' : boleto.expirationDate)
+  const expiredDays       = (expirationInvalid ? '' : boleto.expiredDays)
+  const expired           = (expirationInvalid ? false : boleto.expired)
+
   return {
-    ...boleto.toJSON(),
+    ...detected,
+    ...boleto,
+    expirationDate,
+    expired,
+    expiredDays,
     barcodeTyped: code
   }
 }

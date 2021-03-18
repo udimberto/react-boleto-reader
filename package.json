@@ -1,6 +1,6 @@
 {
   "name": "react-boleto-reader",
-  "version": "0.3.0",
+  "version": "1.0.1",
   "description": "Utility to scan, via browser camera, brazilian-banking barcode.",
   "author": "udimberto",
   "license": "MIT",
@@ -28,6 +28,9 @@
     "@ericblade/quagga2": "^1.3.1",
     "broleto": "~0.0.10"
   },
+  "peerDependencies": {
+    "react": "^16.8.x"
+  },
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "cross-env": "^7.0.2",
@@ -44,12 +47,9 @@
     "gh-pages": "^2.2.0",
     "microbundle-crl": "^0.13.10",
     "prettier": "^2.0.4",
-    "react": "~16.13.1",
-    "react-dom": "~16.13.1",
+    "react": "^16.8.x",
+    "react-dom": "^16.8.x",
     "react-scripts": "^3.4.1"
-  },
-  "peerDependencies": {
-    "react": "~16.13.1"
   },
   "files": [
     "dist"

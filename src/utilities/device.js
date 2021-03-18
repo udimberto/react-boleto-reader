@@ -1,4 +1,11 @@
 /**
+ * Suggestive name :-)
+ *
+ * @returns {boolean}
+ */
+export const isSmartDevice = !!(window && typeof window.orientation !== 'undefined')
+
+/**
  * Search for device resource.
  * If it's existent and supported by browser.
  *

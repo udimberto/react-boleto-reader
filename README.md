@@ -1,4 +1,4 @@
-# react-boleto-reader
+# React Boleto Reader
 
 Utility to read, via browser camera, brazilian-banking barcode.
 
@@ -11,12 +11,18 @@ Utility to read, via browser camera, brazilian-banking barcode.
 npm install --save react-boleto-reader
 ```
 
+## Recommendation
 
-## HTTPS required
+Use this component with smart devices, witch probably have high quality cameras.
+
+
+## Important
+
+The project was built with **React Hooks** features, requiring versions starting from `16.8.x`.
 
 Browser camera only will be available to use if:
 
-  1. The device has camera (KKK, sorry);
+  1. The device have a camera (KKK, sorry);
   2. Your application is running over HTTPS
 
 To apps initializeds by `create-react-app`, this should works:
@@ -27,107 +33,7 @@ HTTPS=true npm start
 
 ## Usage
 
-```jsx
-import React, { useState } from 'react';
-import { BoletoBarcodeReader, BoletoBarcodeReaderProvider } from 'react-boleto-reader';
-import 'react-boleto-reader/dist/index.css';
-
-function Example() {
-  const [boleto, setBoleto] = useState(null);
-  const [reading, setReading] = useState(false);
-
-  function onBoletoDetected(detectedBoleto) {
-    const {
-      barcode,
-      banks,
-      expired,
-      expiredDays,
-      expirationDate,
-      prettyAmount,
-      type,
-    } = detectedBoleto;
-
-    const confirmed = window.confirm(
-      'Estes são os dados do boleto? '.toUpperCase()
-      + `\n\nTipo: \n${type} `
-      + `\n\nBanco: \n${banks} `
-      + `\n\nValor: \n${prettyAmount} `
-      + `\n\nVencimento: \n${expirationDate}`
-      + `\n\nVencido: \n${expired ? 'SIM' : 'NÃO'}`
-      + `\n\nDias Vencido: \n${expiredDays}`
-      + `\n\nCódigo de Barras: \n${barcode}`
-      + '\n(É diferente do número impresso no boleto, o chamado "linha digitável")'
-    );
-
-    if (!confirmed) {
-      return;
-    }
-
-    setReading(false)
-    setBoleto(detectedBoleto)
-  }
-
-  function restart() {
-    setBoleto(null);
-    setReading(true);
-  }
-
-  return (
-    <main style={{ textAlign: 'center' }}>
-      <h1>
-        React Boleto Barcode Reader example
-      </h1>
-      <section>
-
-        {!reading && !boleto && (
-          <button
-            type="button"
-            onClick={restart}
-          >
-            Start Reading
-          </button>
-        )}
-
-        {reading && (
-          <BoletoBarcodeReaderProvider>
-            <BoletoBarcodeReader
-              id="bora-ler-um-boleto-maroto"
-              onDetected={onBoletoDetected}
-              onCancel={() => setReading(false)}
-            />
-          </BoletoBarcodeReaderProvider>
-        )}
-
-        {boleto && (
-          <article id="result">
-            <pre
-              dangerouslySetInnerHTML={{
-                __html: (
-                  JSON
-                    .stringify(boleto || {})
-                    .replace(/{/g, '{<br />  ')
-                    .replace(/":/g, '": ')
-                    .replace(/,"/g, ',<br />  "')
-                    .replace(/}/g, '<br />}')
-                )
-              }}
-            />
-            <footer id="result_footer">
-              <button
-                type="button"
-                onClick={restart}
-              >
-                Read Again
-              </button>
-            </footer>
-          </article>
-        )}
-
-      </section>
-    </main>
-  );
-}
-```
+Examples at this [codesandbox](https://codesandbox.io/s/react-boleto-reader-example-r1ork).
 
 
 ## Could be better, right?
