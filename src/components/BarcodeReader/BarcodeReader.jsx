@@ -51,7 +51,8 @@ export function BarcodeReader({
     lineWidth: 4
   },
   textHeader = 'Com boa iluminação, posicione o código de barras na área delimitada:',
-  textCancel = 'Cancelar'
+  textCancel = 'Cancelar',
+  frequency = 5
 }) {
   const [compareWidth, setCompare] = useState(window.innerWidth)
   const [resizing, setResizing] = useState(null)
@@ -83,7 +84,7 @@ export function BarcodeReader({
             },
             ...inputStream
           },
-          frequency: 5,
+          frequency: frequency,
           singleChannel: true,
           locate: true,
           locator: {
