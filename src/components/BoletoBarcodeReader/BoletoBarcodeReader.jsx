@@ -16,6 +16,7 @@ export function BoletoBarcodeReader({
   onCancel,
   landscape = true,
   textLandscape = '',
+  frequency = 5,
   ...props
 }) {
   const [wasDetected, setDetected] = useState(false)
@@ -56,6 +57,7 @@ export function BoletoBarcodeReader({
         aspectRatio={aspectRatio}
         onCancel={onCancel}
         onDetected={handleDetected}
+        frequency={frequency}
         {...props}
       />
     </Wrapper>
